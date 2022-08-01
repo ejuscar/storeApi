@@ -3,8 +3,8 @@ import ProductRepository from "../repositories/product.repository.js";
 import ClientRepository from "../repositories/client.repository.js";
 
 async function createSale(sale) {
-	const product = await ProductRepository.getProduct(sale.product_id);
-	if (product && (await ClientRepository.getClient(sale.client_id))) {
+	const product = await ProductRepository.getProduct(sale.productId);
+	if (product && (await ClientRepository.getClient(sale.clientId))) {
 		if (product.stock > 0) {
 			sale = await SaleRepository.insertSale(sale);
 			product.stock--;
@@ -18,7 +18,10 @@ async function createSale(sale) {
 	throw new Error("Product or Client does not exist");
 }
 
-async function getSales() {
+async function getSales(productId, supplierId) {
+	if (productId) return await SaleRepository.getSalesByProductId(productId);
+	if (supplierId)
+		return await SaleRepository.getSalesBySupplierId(supplierId);
 	return await SaleRepository.getSales();
 }
 
@@ -32,8 +35,8 @@ async function deleteSale(id) {
 
 async function updateSale(sale) {
 	if (
-		(await ProductRepository.getProduct(sale.product_id)) &&
-		(await ClientRepository.getClient(sale.client_id))
+		(await ProductRepository.getProduct(sale.productId)) &&
+		(await ClientRepository.getClient(sale.clientId))
 	)
 		return await SaleRepository.updateSale(sale);
 

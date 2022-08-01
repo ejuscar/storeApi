@@ -5,7 +5,7 @@ async function createSale(req, res, next) {
 		let sale = req.body;
 
 		// prettier-ignore
-		if(!sale.value || !sale.date || !sale.product_id || !sale.client_id) {
+		if(!sale.value || !sale.date || !sale.productId || !sale.clientId) {
             throw new Error("Value, Date, Product ID and Client ID are required")
         }
 
@@ -22,10 +22,12 @@ async function createSale(req, res, next) {
 
 async function getSales(req, res, next) {
 	try {
+		const productId = req.query.productId;
+		const supplierId = req.query.supplierId;
 		res.send({
 			success: true,
 			message: "Sales retrieve successfully",
-			data: await SaleService.getSales(),
+			data: await SaleService.getSales(productId, supplierId),
 		});
 
 		logger.info(`GET /sale`);
@@ -79,7 +81,7 @@ async function updateSale(req, res, next) {
 		let sale = req.body;
 
 		// prettier-ignore
-		if(!sale.id || !sale.value || !sale.date || !sale.product_id || !sale.client_id) {
+		if(!sale.id || !sale.value || !sale.date || !sale.productId || !sale.clientId) {
             throw new Error("ID, Value, Date, Product ID and Client ID are required")
         }
 

@@ -1,18 +1,13 @@
-import pg from "pg";
+import { Sequelize } from "sequelize";
 
-async function connect() {
-	if (global.connection) {
-		return global.connection.connect();
+const sequelize = new Sequelize(
+	"postgres://qqowctxh:7fL2Abn7CPEyVPexVGQYTlC_08FXTbC8@kesavan.db.elephantsql.com/qqowctxh",
+	{
+		dialect: "postgres",
+		define: {
+			timestamps: false, // Não cria as colunas "createdAt" e "updatedAt"
+		},
 	}
+);
 
-	const pool = new pg.Pool({
-		connectionString:
-			"postgres://qqowctxh:7fL2Abn7CPEyVPexVGQYTlC_08FXTbC8@kesavan.db.elephantsql.com/qqowctxh",
-	});
-
-	global.connection = pool;
-
-	return pool.connect();
-}
-
-export { connect };
+export default sequelize;

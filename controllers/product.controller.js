@@ -5,7 +5,7 @@ async function createProduct(req, res, next) {
 		let product = req.body;
 
 		// prettier-ignore
-		if(!product.name || !product.description || !product.value || !product.stock || !product.supplier_id) {
+		if(!product.name || !product.description || !product.value || !product.stock || !product.supplierId) {
             throw new Error("Name, Description, Value, Stock and Supplier_Id are required")
         }
 
@@ -79,7 +79,7 @@ async function updateProduct(req, res, next) {
 		let product = req.body;
 
 		// prettier-ignore
-		if(!product.id || !product.name || !product.description || !product.value || !product.stock || !product.supplier_id) {
+		if(!product.id || !product.name || !product.description || !product.value || !product.stock || !product.supplierId) {
             throw new Error("Name, Description, Value, Stock and Supplier_Id are required")
         }
 
