@@ -94,10 +94,117 @@ async function updateProduct(req, res, next) {
 	}
 }
 
+async function createProductInfo(req, res, next) {
+	try {
+		let productInfo = req.body;
+
+		if (!productInfo.productId) throw new Error("Product Id is required!");
+
+		res.send({
+			success: true,
+			message: "Product Info created successfully",
+			data: await ProductService.createProductInfo(productInfo),
+		});
+		logger.info(`POST /product/info - ${JSON.stringify(productInfo)}`);
+	} catch (error) {
+		next(error);
+	}
+}
+
+async function updateProductInfo(req, res, next) {
+	try {
+		let productInfo = req.body;
+
+		if (!productInfo.productId) throw new Error("Product Id is required!");
+
+		res.send({
+			success: true,
+			message: "Product Info updated successfully",
+			data: await ProductService.updateProductInfo(productInfo),
+		});
+		logger.info(`PUT /product/info - ${JSON.stringify(productInfo)}`);
+	} catch (error) {
+		next(error);
+	}
+}
+
+async function createReview(req, res, next) {
+	try {
+		let params = req.body;
+
+		if (!params.productId || !params.review)
+			throw new Error("Product Id and review are required!");
+
+		res.send({
+			success: true,
+			message: "Product Review added successfully",
+			data: await ProductService.createReview(
+				params.review,
+				params.productId
+			),
+		});
+		logger.info(`POST /product/review - ${JSON.stringify(params)}`);
+	} catch (error) {
+		next(error);
+	}
+}
+
+async function deleteReview(req, res, next) {
+	try {
+		res.send({
+			success: true,
+			message: "Product Review deleted successfully",
+			data: await ProductService.deleteReview(
+				req.params.id,
+				req.params.index
+			),
+		});
+		logger.info(`DELETE /product/review - ${JSON.stringify(params)}`);
+	} catch (error) {
+		next(error);
+	}
+}
+
+async function getProductsInfo(req, res, next) {
+	try {
+		res.send({
+			success: true,
+			message: "Products Info retrieved successfully",
+			data: await ProductService.getProductsInfo(),
+		});
+		logger.info(`GET /product/info`);
+	} catch (error) {
+		next(error);
+	}
+}
+
+async function deleteProductInfo(req, res, next) {
+	try {
+		let productId = req.params.id;
+
+		if (!productId) throw new Error("Product Id is required!");
+
+		res.send({
+			success: true,
+			message: "Product Info deleted successfully",
+			data: await ProductService.deleteProductInfo(productId),
+		});
+		logger.info(`DELETE /product/info - ${JSON.stringify(productId)}`);
+	} catch (error) {
+		next(error);
+	}
+}
+
 export default {
 	createProduct,
 	getProducts,
 	getProduct,
 	deleteProduct,
 	updateProduct,
+	createProductInfo,
+	updateProductInfo,
+	createReview,
+	deleteReview,
+	getProductsInfo,
+	deleteProductInfo,
 };
