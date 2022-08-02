@@ -1,10 +1,13 @@
-import mongodb from "mongodb";
+import mongoose from "mongoose";
 
-function getClient() {
+async function connect() {
 	const uri =
-		"mongodb+srv://root:umasenha123@cluster0.4nczmxr.mongodb.net/?retryWrites=true&w=majority";
+		"mongodb+srv://root:umasenha123@cluster0.4nczmxr.mongodb.net/store?retryWrites=true&w=majority";
 
-	return new mongodb.MongoClient(uri);
+	return await mongoose.connect(uri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	});
 }
 
-export { getClient };
+export { connect };
